@@ -1,0 +1,203 @@
+/* ===== Base ===== */
+body {
+  margin: 0;
+  background: #f7f3fd;
+}
+
+/* ===== Título ===== */
+h1 {
+  box-sizing: border-box;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  padding: 28px 16px;
+  margin: 0 auto 24px;
+  max-width: 900px;
+  border-radius: 12px;
+  border: 8px solid #9b5de5;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(120deg, #92b2da 0%, #9b5de5 50%, #e8bae8 100%);
+  box-shadow: 0 8px 20px rgba(92, 40, 140, 0.35), inset 0 -3px 0 rgba(0, 0, 0, 0.15);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* ===== Container ===== */
+.pricing-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;       /* cards da mesma linha com a mesma altura */
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 40px 24px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)),
+    url("https://images.pexels.com/photos/19757858/pexels-photo-19757858.jpeg?cs=srgb");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ===== Card ===== */
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 220px;            /* cresce a partir de 220px e quebra se faltar espaço */
+  max-width: 285px;
+  min-width: 0;               /* texto longo não estoura o card */
+  box-sizing: border-box;
+  padding: 16px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background: #ffffff;
+  position: relative;         /* referência para o canvas dos confetes */
+  overflow: hidden;           /* mantém os confetes dentro do card */
+  box-shadow: 0 6px 18px rgba(92, 40, 140, 0.18);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.pricing-card:hover {
+  box-shadow: 0 12px 28px rgba(92, 40, 140, 0.28);
+  transform: translateY(-4px);
+}
+
+/* Canvas dos confetes: fica atrás do conteúdo */
+.pricing-card > canvas.confetes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;       /* deixa o clique passar para o botão */
+  z-index: 0;
+}
+
+/* Conteúdo do card fica por cima dos confetes */
+.pricing-card > *:not(canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Títulos e cores por plano ===== */
+.pricing-card h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.basic-plan h2,
+.basic-plan p {
+  color: rgb(61, 141, 233);
+}
+
+.pro-plan h2,
+.pro-plan p {
+  color: rgb(6, 161, 6);
+}
+
+.premium-plan h2,
+.premium-plan p {
+  color: rgb(149, 26, 149);
+}
+
+/* ===== Lista ===== */
+.pricing-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pricing-card li {
+  position: relative;
+  list-style: none;
+  padding-left: 30px;
+  margin: 0 0 4px;
+  line-height: 1.25;
+}
+
+/* Incluso: ✔ verde */
+.pricing-card li.incluso::before {
+  content: '✔';
+  position: absolute;
+  left: 0;
+  top: -5px;
+  color: rgb(27, 218, 84);
+}
+
+/* Excluso: ✗ vermelho, elevado */
+.pricing-card li.excluso::before {
+  content: '✗';
+  position: absolute;
+  left: 0;
+  top: -10px;                 /* ajuste fino, se o ✗ sair do alinhamento */
+  font-size: 1.3em;
+  color: #f3361d;
+}
+
+/* ===== Rodapé: preço e botão ===== */
+.preco {
+  margin: 0 0 8px;            /* sem espaço acima, pequeno espaço até o botão */
+}
+
+.botao-plano {
+  width: 100%;
+  margin: 0;
+  padding: 10px 16px;
+  background-color: gold;
+  color: #000;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.botao-plano:hover {
+  background-color: #d99e1f;
+}
+
+/* ===== Responsivo: tablet (até 900px) ===== */
+@media (max-width: 900px) {
+  .pricing-card {
+    flex: 1 1 240px;
+  }
+}
+
+/* ===== Responsivo: celular (até 600px) ===== */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.8rem;
+    padding: 16px 12px;
+    margin: 0 12px 16px;
+    max-width: none;
+  }
+
+  .pricing-container {
+    padding: 16px 12px 24px;
+    gap: 16px;
+  }
+
+  .pricing-card {
+    flex: 1 1 100%;           /* cada card ocupa a largura da tela */
+    max-width: 100%;
+    width: 100%;
+    padding: 14px;
+  }
+
+  .pricing-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .pricing-card li {
+    font-size: 0.95rem;
+  }
+
+  .botao-plano {
+    padding: 12px 16px;
+  }
+}

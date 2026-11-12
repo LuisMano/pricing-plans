@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing Plans Layout Page</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Planos e preços</h1>
+
+    <div class="pricing-container">
+
+      <div class="pricing-card basic-plan">
+        <canvas class="confetes" aria-hidden="true"></canvas>
+        <h2>Basic</h2>
+        <ul>
+          <li class="incluso">Acesso aos recursos principais</li>
+          <li class="incluso">Suporte por e-mail</li>
+          <li class="incluso">Análises avançadas</li>
+          <li class="incluso">Backup automático</li>
+          <li class="incluso">Modelos prontos</li>
+          <li class="incluso">Armazenamento em nuvem</li>
+          <li class="incluso">Notificações por e-mail</li>
+          <li class="excluso">Ajuda com a configuração</li>
+          <li class="excluso">Integrações personalizadas</li>
+          <li class="excluso">Suporte prioritário</li>
+          <li class="excluso">Relatórios exportáveis</li>
+        </ul>
+        <p class="preco">R$50/mês</p>
+        <button class="botao-plano">Escolher plano</button>
+      </div>
+
+      <div class="pricing-card pro-plan">
+        <canvas class="confetes" aria-hidden="true"></canvas>
+        <h2>Pro</h2>
+        <ul>
+          <li class="incluso">Acesso aos recursos principais</li>
+          <li class="incluso">Suporte por e-mail</li>
+          <li class="incluso">Análises avançadas</li>
+          <li class="incluso">Backup automático</li>
+          <li class="incluso">Modelos prontos</li>
+          <li class="incluso">Armazenamento em nuvem</li>
+          <li class="incluso">Notificações por e-mail</li>
+          <li class="incluso">Ajuda com a configuração</li>
+          <li class="excluso">Integrações personalizadas</li>
+          <li class="excluso">Suporte prioritário</li>
+          <li class="excluso">Relatórios exportáveis</li>
+        </ul>
+        <p class="preco">R$105/mês</p>
+        <button class="botao-plano">Escolher plano</button>
+      </div>
+
+      <div class="pricing-card premium-plan">
+        <canvas class="confetes" aria-hidden="true"></canvas>
+        <h2>Premium</h2>
+        <ul>
+          <li class="incluso">Acesso aos recursos principais</li>
+          <li class="incluso">Suporte por e-mail</li>
+          <li class="incluso">Análises avançadas</li>
+          <li class="incluso">Backup automático</li>
+          <li class="incluso">Modelos prontos</li>
+          <li class="incluso">Armazenamento em nuvem</li>
+          <li class="incluso">Notificações por e-mail</li>
+          <li class="incluso">Ajuda com a configuração</li>
+          <li class="incluso">Integrações personalizadas</li>
+          <li class="incluso">Suporte prioritário</li>
+          <li class="incluso">Relatórios exportáveis</li>
+        </ul>
+        <p class="preco">R$160/mês</p>
+        <button class="botao-plano">Escolher plano</button>
+      </div>
+
+    </div>
+
+    <script>
+      // Cores dos confetes
+      const CORES = ['#f0b429', '#e63946', '#2a9d8f', '#457b9d', '#9b5de5'];
+
+      // Cria confetes em todos os cards que têm canvas
+      document.querySelectorAll('.pricing-card').forEach((card) => {
+        const canvas = card.querySelector('.confetes');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        // Ajusta a resolução do canvas ao tamanho real do card
+        function ajustarTamanho() {
+          canvas.width = card.clientWidth;
+          canvas.height = card.clientHeight;
+        }
+        ajustarTamanho();
+        window.addEventListener('resize', ajustarTamanho);
+
+        // Cada confete tem posição, velocidade, tamanho, cor e rotação
+        function novoConfete(inicial = false) {
+          return {
+            x: Math.random() * canvas.width,
+            // Confetes novos nascem acima do card; os iniciais ficam espalhados
+            y: inicial ? Math.random() * canvas.height : -10,
+            velocidadeY: 1 + Math.random() * 2,
+            oscilacao: Math.random() * Math.PI * 2,
+            tamanho: 4 + Math.random() * 4,
+            cor: CORES[Math.floor(Math.random() * CORES.length)],
+            rotacao: Math.random() * Math.PI * 2,
+          };
+        }
+
+        const confetes = Array.from({ length: 40 }, () => novoConfete(true));
+
+        function desenhar() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          confetes.forEach((c, i) => {
+            // Queda com leve balanço lateral
+            c.y += c.velocidadeY;
+            c.oscilacao += 0.05;
+            c.x += Math.sin(c.oscilacao) * 0.5;
+            c.rotacao += 0.05;
+
+            // Quando sai pela parte de baixo, recomeça no topo
+            if (c.y > canvas.height) {
+              confetes[i] = novoConfete(false);
+              return;
+            }
+
+            ctx.save();
+            ctx.translate(c.x, c.y);
+            ctx.rotate(c.rotacao);
+            ctx.fillStyle = c.cor;
+            ctx.fillRect(-c.tamanho / 2, -c.tamanho / 4, c.tamanho, c.tamanho / 2);
+            ctx.restore();
+          });
+
+          requestAnimationFrame(desenhar);
+        }
+
+        desenhar();
+      });
+    </script>
+  </body>
+</html>
