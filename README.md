@@ -21,10 +21,10 @@ cd <pasta-do-projeto>
 Para testar o responsivo, use o DevTools (F12) com o modo de celular (Ctrl + Shift + M).
 
 ## Estrutura do projeto
-New-Item README.md -ItemType File
-code README.md
-ls
-ls
-git status
-git init
-git branch -M main
+
+```
+.
+├── index.html    # estrutura da página e script dos confetes
+├── styles.css    # layout, cores, responsivo e efeitos
+└── README.md     # documentação do projeto
+```
