@@ -1,244 +1,204 @@
-/* ==========================================================================
-   Variáveis: cores e fontes em um único lugar
-   ========================================================================== */
-:root {
-  --fonte-titulo: Georgia, 'Times New Roman', serif;
-  --cor-fundo: #f7f3fd;
-  --cor-roxo: #5c288c;
-  --cor-incluso: #1b8a3e;
-  --cor-excluso: #c62828;
-  --cor-basic: #1d5fb8;
-  --cor-pro: #0a6b0a;
-  --cor-premium: #7a1a7a;
-  --cor-botao: #ffd700;
-  --cor-botao-hover: #d99e1f;
-}
-
+/* ===== Base ===== */
 body {
   margin: 0;
-  background: var(--cor-fundo);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-   }
+  background: #f7f3fd;
+   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
 
-
-/* ==========================================================================
-   Título (classe própria, para não afetar outros h1 do site)
-   ========================================================================== */
-.titulo-pagina {
+/* ===== Título ===== */
+h1 {
   box-sizing: border-box;
-  max-width: 900px;
-  margin: 0 auto 24px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
   padding: 28px 16px;
-  border: 3px solid #9b5de5;
+  margin: 0 auto 24px;
+  max-width: 900px;
   border-radius: 12px;
+  border: 8px solid #9b5de5;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 50%),
     linear-gradient(120deg, #92b2da 0%, #9b5de5 50%, #e8bae8 100%);
   box-shadow: 0 8px 20px rgba(92, 40, 140, 0.35), inset 0 -3px 0 rgba(0, 0, 0, 0.15);
-  color: #fff;
-  font-family: var(--fonte-titulo);
-  font-size: 2.8rem;
-  font-weight: 700;
-  text-align: center;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
-/* ==========================================================================
-   Container dos cards
-   ========================================================================== */
+/* ===== Container ===== */
 .pricing-container {
-  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: stretch;
+  align-items: stretch;       /* cards da mesma linha com a mesma altura */
   gap: 24px;
   width: 100%;
+  box-sizing: border-box;
   padding: 40px 24px;
   background:
     linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)),
-    url('assets/fundo-cafe.jpg'); /* imagem local, não hotlink */
-  background-position: center;
+    url("https://images.pexels.com/photos/19757858/pexels-photo-19757858.jpeg?cs=srgb");
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
-/* ==========================================================================
-   Card
-   ========================================================================== */
+/* ===== Card ===== */
 .pricing-card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  flex: 1 1 220px;
+  flex: 1 1 220px;            /* cresce a partir de 220px e quebra se faltar espaço */
   max-width: 285px;
-  min-width: 0;
+  min-width: 0;               /* texto longo não estoura o card */
   box-sizing: border-box;
   padding: 16px;
-  border: 2px solid #000;
+  border: 2px solid black;
   border-radius: 10px;
-  background: #fff;
+  background: #ffffff;
+  position: relative;         /* referência para o canvas dos confetes */
+  overflow: hidden;           /* mantém os confetes dentro do card */
   box-shadow: 0 6px 18px rgba(92, 40, 140, 0.18);
-  overflow: hidden; /* necessário para o canvas dos confetes */
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* Efeito de hover só em dispositivos com mouse e sem preferência de movimento reduzido */
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .pricing-card:hover {
-    box-shadow: 0 12px 28px rgba(92, 40, 140, 0.28);
-    transform: translateY(-4px);
-  }
+.pricing-card:hover {
+  box-shadow: 0 12px 28px rgba(92, 40, 140, 0.28);
+  transform: translateY(-4px);
 }
 
-/* Canvas dos confetes: atrás do conteúdo, sem bloquear cliques */
+/* Canvas dos confetes: fica atrás do conteúdo */
 .pricing-card > canvas.confetes {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;       /* deixa o clique passar para o botão */
   z-index: 0;
-  pointer-events: none;
 }
 
-/* Conteúdo sempre por cima dos confetes */
-.card-conteudo {
+/* Conteúdo do card fica por cima dos confetes */
+.pricing-card > *:not(canvas) {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 }
 
-/* ==========================================================================
-   Cores por plano (aplicadas em classes específicas, não em <p> genéricos)
-   ========================================================================== */
-.basic-plan .titulo-plano,
-.basic-plan .preco {
-  color: var(--cor-basic);
-}
-
-.pro-plan .titulo-plano,
-.pro-plan .preco {
-  color: var(--cor-pro);
-}
-
-.premium-plan .titulo-plano,
-.premium-plan .preco {
-  color: var(--cor-premium);
-}
-
-.titulo-plano {
-  margin: 0 0 8px;
-  font-family: var(--fonte-titulo);
+/* ===== Títulos e cores por plano ===== */
+.pricing-card h2 {
+  font-family: Georgia, 'Times New Roman', serif;
   font-weight: 700;
+  margin: 0 0 8px;
 }
 
-/* ==========================================================================
-   Lista de recursos: ícone e texto alinhados com flexbox, sem top negativo
-   ========================================================================== */
-.recursos {
+.basic-plan h2,
+.basic-plan p {
+  color: rgb(61, 141, 233);
+}
+
+.pro-plan h2,
+.pro-plan p {
+  color: rgb(6, 161, 6);
+}
+
+.premium-plan h2,
+.premium-plan p {
+  color: rgb(149, 26, 149);
+}
+
+/* ===== Lista ===== */
+.pricing-card ul {
+  list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.pricing-card li {
+  position: relative;
   list-style: none;
+  padding-left: 30px;
+  margin: 0 0 4px;
+  line-height: 1.25;
 }
 
-.recursos li {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin: 0 0 6px;
-  line-height: 1.3;
-}
-
-.recursos li::before {
-  flex-shrink: 0;
-  width: 1em;
-  text-align: center;
-}
-
-.recursos li.incluso::before {
+/* Incluso: ✔ verde */
+.pricing-card li.incluso::before {
   content: '✔';
-  color: var(--cor-incluso);
+  position: absolute;
+  left: 0;
+  top: -5px;
+  color: rgb(27, 218, 84);
 }
 
-.recursos li.excluso::before {
+/* Excluso: ✗ vermelho, elevado */
+.pricing-card li.excluso::before {
   content: '✗';
-  color: var(--cor-excluso);
+  position: absolute;
+  left: 0;
+  top: -10px;                 /* ajuste fino, se o ✗ sair do alinhamento */
+  font-size: 1.3em;
+  color: #f3361d;
 }
 
-/* ==========================================================================
-   Rodapé do card: preço e botão alinhados na base
-   ========================================================================== */
+/* ===== Rodapé: preço e botão ===== */
 .preco {
-  margin: 8px 0;
-  font-weight: 600;
+  margin: 0 0 8px;            /* sem espaço acima, pequeno espaço até o botão */
 }
 
 .botao-plano {
   width: 100%;
-  margin-top: auto; /* empurra o botão para a base do card */
+  margin: 0;
   padding: 10px 16px;
+  background-color: gold;
+  color: #000;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
   border: none;
   border-radius: 10px;
-  background-color: var(--cor-botao);
-  color: #000;
-  font: inherit;
-  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 .botao-plano:hover {
-  background-color: var(--cor-botao-hover);
+  background-color: #d99e1f;
 }
 
-.botao-plano:focus-visible {
-  outline: 3px solid var(--cor-roxo);
-  outline-offset: 2px;
-}
-
-/* ==========================================================================
-   Responsivo: tablet
-   ========================================================================== */
+/* ===== Responsivo: tablet (até 900px) ===== */
 @media (max-width: 900px) {
   .pricing-card {
-    flex-basis: 240px;
+    flex: 1 1 240px;
   }
 }
 
-/* ==========================================================================
-   Responsivo: celular
-   ========================================================================== */
+/* ===== Responsivo: celular (até 600px) ===== */
 @media (max-width: 600px) {
-  .titulo-pagina {
-    max-width: none;
-    margin: 0 12px 16px;
-    padding: 16px 12px;
+  h1 {
     font-size: 1.8rem;
+    padding: 16px 12px;
+    margin: 0 12px 16px;
+    max-width: none;
   }
 
   .pricing-container {
-    gap: 16px;
     padding: 16px 12px 24px;
+    gap: 16px;
   }
 
   .pricing-card {
-    flex: 1 1 100%;
-    width: 100%;
+    flex: 1 1 100%;           /* cada card ocupa a largura da tela */
     max-width: 100%;
+    width: 100%;
     padding: 14px;
   }
 
-  .titulo-plano {
+  .pricing-card h2 {
     font-size: 1.5rem;
   }
 
-  .recursos li {
+  .pricing-card li {
     font-size: 0.95rem;
   }
+
+  .botao-plano {
+    padding: 12px 16px;
+  }
 }
-
-
-
-
